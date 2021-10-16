@@ -15,11 +15,18 @@ namespace Full_GRASP_And_SOLID
 
         public Product FinalProduct { get; set; }
 
-        public void AddStep(Step step)
+        // The Recipe class is the only one which uses directly the Step class (containing a list of them),
+        // so, according to the Creator pattern, it should have the responsibility of creating Step objects.
+        public Step AddStep(Product input, double quantity, Equipment equipment, int time)
         {
+            Step step = new Step(input, quantity, equipment, time);
             this.steps.Add(step);
+            return step;
         }
 
+        // Despite the change in the AddStep method, this one still works, because
+        // the AddStep method returns a reference to the step added into the list,
+        // which can be used to remove it later.
         public void RemoveStep(Step step)
         {
             this.steps.Remove(step);
